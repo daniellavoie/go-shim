@@ -6,12 +6,12 @@ import (
 	"os/exec"
 	"sync"
 
-	"github.com/daniellavoie/go-shim/execshim"
+	"github.com/daniellavoie/go-shim"
 )
 
 type FakeExec struct {
-	CommandStub        func(name string, arg ...string) *exec.Cmd
-	commandMutex       sync.RWMutex
+	CommandStub  func(name string, arg ...string) *exec.Cmd
+	commandMutex sync.RWMutex
 	commandArgsForCall []struct {
 		name string
 		arg  []string
@@ -22,8 +22,8 @@ type FakeExec struct {
 	commandReturnsOnCall map[int]struct {
 		result1 *exec.Cmd
 	}
-	CommandContextStub        func(ctx context.Context, name string, arg ...string) *exec.Cmd
-	commandContextMutex       sync.RWMutex
+	CommandContextStub  func(ctx context.Context, name string, arg ...string) *exec.Cmd
+	commandContextMutex sync.RWMutex
 	commandContextArgsForCall []struct {
 		ctx  context.Context
 		name string
@@ -35,8 +35,8 @@ type FakeExec struct {
 	commandContextReturnsOnCall map[int]struct {
 		result1 *exec.Cmd
 	}
-	LookPathStub        func(file string) (string, error)
-	lookPathMutex       sync.RWMutex
+	LookPathStub  func(file string) (string, error)
+	lookPathMutex sync.RWMutex
 	lookPathArgsForCall []struct {
 		file string
 	}
@@ -48,7 +48,7 @@ type FakeExec struct {
 		result1 string
 		result2 error
 	}
-	invocations      map[string][][]interface{}
+	invocations map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
@@ -230,4 +230,4 @@ func (fake *FakeExec) recordInvocation(key string, args []interface{}) {
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ execshim.Exec = new(FakeExec)
+var _ goshim.Exec = new(FakeExec)
